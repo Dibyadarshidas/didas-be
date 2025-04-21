@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Didas BE Server API</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .endpoint {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            border-radius: 0 5px 5px 0;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        .swagger-link {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .swagger-link:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Didas Backend API</h1>
+        <p>Welcome to the Didas Backend Server API documentation page.</p>
+        <a href="/api-docs" class="swagger-link">Interactive API Documentation</a>
+    </header>
+
+    <section>
+        <h2>Available Endpoints</h2>
+        
+        <div class="endpoint">
+            <h3>Contact API</h3>
+            <p>Endpoint: <code>/api/contact</code></p>
+            <p>Used for handling contact form submissions and inquiries.</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3>Newsletter API</h3>
+            <p>Endpoint: <code>/api/newsletter</code></p>
+            <p>Used for newsletter subscription management.</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3>Health Check</h3>
+            <p>Endpoint: <code>/health</code></p>
+            <p>Used to verify the server is running properly.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>API Status</h2>
+        <p>The server is currently running and ready to accept requests.</p>
+        <p>For more detailed API documentation or if you need assistance, please contact the development team.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Didas Backend API. All rights reserved.</p>
+    </footer>
+</body>
+</html> 
