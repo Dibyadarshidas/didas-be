@@ -19,6 +19,7 @@ const swaggerDocs = require('./config/swagger');
 // Import routes
 const contactRoutes = require('./routes/contactRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
+const dibyChatRoutes = require('./routes/dibyChatRoutes');
 
 // Initialize Express app
 const app = express();
@@ -73,6 +74,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
 // Routes
 app.use('/api/contact', contactRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/diby-chat', dibyChatRoutes);
 
 /**
  * @swagger

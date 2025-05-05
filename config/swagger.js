@@ -82,11 +82,52 @@ const swaggerOptions = {
               description: 'Timestamp of when the subscription was last updated'
             }
           }
+        },
+        ChatMessage: {
+          type: 'object',
+          required: ['message'],
+          properties: {
+            message: {
+              type: 'string',
+              description: 'Message to send to the AI assistant'
+            }
+          }
+        },
+        ChatResponse: {
+          type: 'object',
+          properties: {
+            success: {
+              type: 'boolean',
+              description: 'Whether the request was successful'
+            },
+            data: {
+              type: 'string',
+              description: 'Response from the AI assistant'
+            }
+          }
         }
       }
-    }
+    },
+    tags: [
+      {
+        name: 'Contact',
+        description: 'Contact form API endpoints'
+      },
+      {
+        name: 'Newsletter',
+        description: 'Newsletter subscription API endpoints'
+      },
+      {
+        name: 'Chat',
+        description: 'AI chat API endpoints'
+      },
+      {
+        name: 'System',
+        description: 'System-related API endpoints'
+      }
+    ]
   },
-  apis: ['./routes/*.js', './app.js'],
+  apis: ['./routes/*.js', './controllers/*.js', './app.js'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);

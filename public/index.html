@@ -55,6 +55,58 @@
         .swagger-link:hover {
             background-color: #2980b9;
         }
+        .chat-container {
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #dcf8c6;
+            margin-left: 30px;
+        }
+        .bot-message {
+            background-color: #f1f0f0;
+            margin-right: 30px;
+        }
+        .chat-form {
+            display: flex;
+        }
+        .chat-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+        .chat-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        .chat-button:hover {
+            background-color: #2980b9;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -80,9 +132,26 @@
         </div>
         
         <div class="endpoint">
+            <h3>Diby Chat API</h3>
+            <p>Endpoint: <code>/api/diby-chat</code></p>
+            <p>Used for AI chat interaction using Cohere's API.</p>
+        </div>
+        
+        <div class="endpoint">
             <h3>Health Check</h3>
             <p>Endpoint: <code>/health</code></p>
             <p>Used to verify the server is running properly.</p>
+        </div>
+    </section>
+
+    <section class="chat-container">
+        <h2>Try Diby Chat</h2>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">Hello! How can I assist you today?</div>
+        </div>
+        <div class="chat-form">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message here...">
+            <button class="chat-button" id="sendButton">Send</button>
         </div>
     </section>
 
@@ -95,5 +164,95 @@
     <footer>
         <p>&copy; 2023 Didas Backend API. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                
+                // For user messages, use textContent for security
+                // For bot messages, use innerHTML to preserve formatting
+                if (isUser) {
+                    messageDiv.textContent = message;
+                } else {
+                    // Replace newlines with <br> for proper display
+                    const formattedText = message.replace(/\n/g, '<br>');
+                    messageDiv.innerHTML = formattedText;
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function addLoadingIndicator() {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'message bot-message loading';
+                loadingDiv.id = 'loadingIndicator';
+                loadingDiv.textContent = 'Thinking...';
+                chatMessages.appendChild(loadingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function removeLoadingIndicator() {
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                if (loadingIndicator) {
+                    loadingIndicator.remove();
+                }
+            }
+
+            async function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                addMessage(message, true);
+                chatInput.value = '';
+
+                // Add loading indicator
+                addLoadingIndicator();
+
+                try {
+                    const response = await fetch('/api/diby-chat/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message })
+                    });
+
+                    const data = await response.json();
+                    
+                    // Remove loading indicator
+                    removeLoadingIndicator();
+
+                    if (data.success) {
+                        // Use the addMessage function to add the bot's response
+                        addMessage(data.data, false);
+                    } else {
+                        addMessage('Sorry, there was an error processing your request.');
+                        console.error('Error:', data.error);
+                    }
+                } catch (error) {
+                    // Remove loading indicator
+                    removeLoadingIndicator();
+                    
+                    addMessage('Sorry, there was an error connecting to the server.');
+                    console.error('Error:', error);
+                }
+            }
+
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
 </body>
 </html> 
